@@ -2,6 +2,7 @@ const userModel = require('../models/userModel')
 const bookModel = require('../models/bookModel')
 const mongoose = require('mongoose')
 const reviewModel = require('../models/reviewModel')
+
 const isValid = function(value) {
     if (typeof value === 'undefined' || value === null) return false
     if (typeof value === 'string' && value.trim().length === 0) return false
@@ -88,7 +89,7 @@ const createbook = async function(req, res) {
                 res.status(404).send({ status: false, message: "User doesn't exist" })
             }
 
-            requestBody.releasedAt = new Date(requestBody.releasedAt)
+            // requestBody.releasedAt = new Date(requestBody.releasedAt)
             const reviews = 0
             const bookDetails = { title, excerpt, userId, ISBN, category, subcategory, reviews, releasedAt }
             const createBook = await bookModel.create(bookDetails)
@@ -173,7 +174,7 @@ let getBooksByID = async function(req, res) {
                 if (reviewsData) {
                     bookData.reviewsData = reviewsData
                 }
-                res.status(201).send({ status: true, data: bookData })
+                res.status(200).send({ status: true, data: bookData })
             }
         } else {
             res.status(400).send({ status: false, msg: "BookID must be present in the request parameters" })
@@ -229,10 +230,10 @@ const updateBookWithNewFeatures = async function(req, res) {
         let updatedBookData = await bookModel.findOneAndUpdate(fliterForUpdate, requestBody, { new: true }).select({ _id: 1, title: 1, excerpt: 1, userId: 1, category: 1, releasedAt: 1, reviews: 1 })
 
         if (updatedBookData) {
-            res.status(201).send({ status: true, message: "Book updated successfully", data: updatedBookData })
+            res.status(200).send({ status: true, message: "Book updated successfully", data: updatedBookData })
             return
         } else {
-            res.status(401).send({ status: false, message: "Either your book is deleted or you are not an authorized user" })
+            res.status(404).send({ status: false, message: "Can't find book!! Either your book is deleted or you are not an authorized user" })
         }
     } catch (error) {
         return res.status(500).send({ status: false, msg: error.message });
@@ -254,7 +255,7 @@ let deleteBookById = async function(req, res) {
         if (deletedBook) {
             res.status(200).send({ status: true, Message: "Book deleted successfully", data: deletedBook })
         } else {
-            res.status(400).send({ status: false, message: "Cannot find book!, book is deleted already or you are not an authorized user to delete this book" })
+            res.status(404).send({ status: false, message: "Cannot find book!, book is deleted already or you are not an authorized user to delete this book" })
         }
     } catch (error) {
         res.status(500).send({ status: false, msg: error.message })
