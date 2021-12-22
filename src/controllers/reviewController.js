@@ -48,10 +48,10 @@ const newReview = async function(req, res) {
                 return
             }
 
-            if (!isValid(reviewedBy)) {
-                res.status(400).send({ status: false, message: "Please provide reviewedBy name" })
-                return
-            }
+            // if (!isValid(reviewedBy)) {
+            //     res.status(400).send({ status: false, message: "Please provide reviewedBy name" })
+            //     return
+            // }
 
 
             if (!isValid(rating)) {
