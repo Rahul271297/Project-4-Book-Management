@@ -134,7 +134,7 @@ const getBooksByFilter = async function(req, res) {
             res.status(404).send({ status: false, message: 'No books found which matches the filters' })
             return
         }
-        // const sortBooks = books.sort(function(a, b) { return a.title - b.title }) // Sorting a-z
+        
 
         res.status(200).send({ status: true, message: 'Book List', data: books })
 
