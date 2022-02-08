@@ -5,7 +5,7 @@ const reviewController = require('../controllers/reviewController')
 const mid = require('../middleware/mid.js')
 const router = express.Router();
 
-module.exports = router;
+module.exports = router; 
 
 //User Routes
 router.post("/register", userController.registerUser)
